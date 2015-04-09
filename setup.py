@@ -1,6 +1,6 @@
 from setuptools import setup
 
-setup(name='py-db-backup-tools',
+setup(name='dbbackuptools',
       version='0.1',
       description='',
       url='http://github.com/mvoronin/py-db-backup-tools',
