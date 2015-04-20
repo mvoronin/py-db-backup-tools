@@ -10,6 +10,8 @@ from fabric.operations import sudo, run, local, put
 from fabric.state import env
 from fabric.tasks import execute
 
+logger = logging.getLogger(__name__)
+
 
 def local_backup_create(backup_path, db_name):
     exit_code = subprocess.call(["pg_dump", "-j", "3", "-F", "d", "-f", backup_path, db_name])
@@ -43,7 +45,7 @@ def backup_download(aws_access_key_id, aws_secret_access_key, bucket, key_prefix
     :return: None
     """
 
-    s3 = AWSS3(aws_access_key_id, aws_secret_access_key)
+    s3 = AWSS3(aws_access_key_id, aws_secret_access_key, logger=logger)
     s3.download_directory1(bucket, key_prefix, path_destination=destination)
 
 
@@ -148,7 +150,7 @@ def database_restore_from_s3(aws_access_key_id, aws_secret_access_key, bucket, k
     :return: None
     """
 
-    #backup_download(aws_access_key_id, aws_secret_access_key, bucket, key_prefix, tmpdir)
+    backup_download(aws_access_key_id, aws_secret_access_key, bucket, key_prefix, tmpdir)
 
     path_backup = ''
     prefix_length = len(key_prefix)
